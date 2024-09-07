@@ -1,0 +1,70 @@
+<div class="container">
+  <h2>Solicitar Orçamento</h2>
+  <form (ngSubmit)="fazerOrcamento()" #orcamentoForm="ngForm">
+
+    <!-- Quantidade -->
+    <label for="quantidade">Quantidade:</label>
+    <input type="number" id="quantidade" [(ngModel)]="pedido.quantidade" name="quantidade" required />
+
+    <!-- Tamanhos -->
+    <label for="tamanho">Tamanhos:</label>
+    <select id="tamanho" [(ngModel)]="pedido.tamanho" name="tamanho" required>
+      <option value="XP">XP</option>
+      <option value="P">P</option>
+      <option value="M">M</option>
+      <option value="G">G</option>
+      <option value="GG">GG</option>
+    </select>
+
+    <!-- Cores -->
+    <label for="cores">Cores:</label>
+    <input type="text" id="cores" [(ngModel)]="pedido.cores" name="cores" placeholder="Exemplo: Azul, Vermelho" required />
+
+    <!-- Material -->
+    <label for="material">Material:</label>
+    <input type="text" id="material" [(ngModel)]="pedido.material" name="material" placeholder="Exemplo: Algodão, Poliéster" required />
+
+    <!-- Prazo Desejado -->
+    <label for="prazo">Prazo Desejado:</label>
+    <input type="date" id="prazo" [(ngModel)]="pedido.prazo" name="prazo" required />
+
+    <!-- Design (Upload de Arquivo) -->
+    <label for="design">Design (Envie o arquivo do design):</label>
+    <input type="file" id="design" (change)="onFileSelected($event)" name="design" accept=".png,.jpg,.jpeg,.pdf" required />
+
+    <!-- Endereço de Entrega -->
+    <label for="endereco">Endereço de Entrega:</label>
+    <input type="text" id="endereco" [(ngModel)]="pedido.endereco" name="endereco" required />
+
+    <!-- Tipos de Modelos -->
+    <label for="modelo">Modelo de Peça:</label>
+    <input type="text" id="modelo" [(ngModel)]="pedido.modelo" name="modelo" placeholder="Exemplo: Camisa, Calça" required />
+
+    <!-- Informações Adicionais -->
+    <label for="informacoesAdicionais">Informações Adicionais:</label>
+    <textarea id="informacoesAdicionais" [(ngModel)]="pedido.informacoesAdicionais" name="informacoesAdicionais"></textarea>
+
+    <!-- Botão de Submissão -->
+    <button type="submit" [disabled]="!orcamentoForm.valid">Fazer Orçamento</button>
+
+  </form>
+
+  <!-- Exibir resultado do orçamento -->
+  <div *ngIf="orcamentoRecebido">
+    <h3>Resultado do Orçamento</h3>
+    <p>Valor Total: {{orcamentoRecebido.valorTotal | currency}}</p>
+    
+    <button (click)="prosseguirPagamento()">Prosseguir para Pagamento</button>
+    <button (click)="refazerOrcamento()">Refazer Orçamento</button>
+    <button (click)="sair()">Sair</button>
+  </div>
+</div>
+
+<!-- Modal de Aviso ao Sair -->
+<div *ngIf="mostrarAvisoSair" class="modal">
+  <div class="modal-content">
+    <p>ATENÇÃO! Se optar por sair, todas as suas informações serão perdidas e o orçamento não será concluído.</p>
+    <button (click)="confirmarSaida()">Sair</button>
+    <button (click)="cancelarSaida()">Prosseguir</button>
+  </div>
+</div>
